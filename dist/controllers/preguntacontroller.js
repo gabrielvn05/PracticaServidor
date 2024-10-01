@@ -38,88 +38,132 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deletePregunta = exports.updatePregunta = exports.createPregunta = exports.getPregunta = exports.getPreguntas = void 0;
 var data_source_1 = require("../data-source");
-var User_1 = require("../entity/User"); // Ajustar ruta correcta según tu estructura
+var User_1 = require("../entity/User");
 var getPreguntas = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var preguntas;
+    var preguntas, error_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, data_source_1.AppDataSource.getRepository(User_1.Pregunta).find()];
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, data_source_1.AppDataSource.getRepository(User_1.Pregunta).find()];
             case 1:
                 preguntas = _a.sent();
                 res.json(preguntas);
-                return [2 /*return*/];
+                return [3 /*break*/, 3];
+            case 2:
+                error_1 = _a.sent();
+                console.error('Error al obtener las preguntas:', error_1);
+                res.status(500).json({ message: 'Error al obtener las preguntas' });
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
         }
     });
 }); };
 exports.getPreguntas = getPreguntas;
 var getPregunta = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var pregunta;
+    var pregunta, error_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, data_source_1.AppDataSource.getRepository(User_1.Pregunta).findOneBy({
-                    ID: parseInt(req.params.id, 10),
-                })];
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, data_source_1.AppDataSource.getRepository(User_1.Pregunta).findOneBy({
+                        ID: parseInt(req.params.id, 10),
+                    })];
             case 1:
                 pregunta = _a.sent();
                 if (pregunta) {
                     res.json(pregunta);
                 }
                 else {
-                    res.status(404).json({ message: 'Pregunta no encontrada' });
+                    res.status(404).json({ message: "Pregunta con ID ".concat(req.params.id, " no encontrada") });
                 }
-                return [2 /*return*/];
+                return [3 /*break*/, 3];
+            case 2:
+                error_2 = _a.sent();
+                console.error('Error al obtener la pregunta:', error_2);
+                res.status(500).json({ message: 'Error al obtener la pregunta' });
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
         }
     });
 }); };
 exports.getPregunta = getPregunta;
 var createPregunta = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var pregunta, result;
+    var pregunta, result, error_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
+                _a.trys.push([0, 2, , 3]);
                 pregunta = data_source_1.AppDataSource.getRepository(User_1.Pregunta).create(req.body);
                 return [4 /*yield*/, data_source_1.AppDataSource.getRepository(User_1.Pregunta).save(pregunta)];
             case 1:
                 result = _a.sent();
-                res.json(result);
-                return [2 /*return*/];
+                res.status(201).json(result);
+                return [3 /*break*/, 3];
+            case 2:
+                error_3 = _a.sent();
+                console.error('Error al crear la pregunta:', error_3);
+                res.status(500).json({ message: 'Error al crear la pregunta' });
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
         }
     });
 }); };
 exports.createPregunta = createPregunta;
 var updatePregunta = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var pregunta, result;
+    var preguntaId, pregunta, updatedPregunta, result, error_4;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, data_source_1.AppDataSource.getRepository(User_1.Pregunta).findOneBy({
-                    ID: parseInt(req.params.id, 10),
-                })];
+            case 0:
+                _a.trys.push([0, 3, , 4]);
+                preguntaId = parseInt(req.params.id, 10);
+                console.log("Intentando actualizar la pregunta con ID: ".concat(preguntaId));
+                return [4 /*yield*/, data_source_1.AppDataSource.getRepository(User_1.Pregunta).findOneBy({
+                        ID: preguntaId,
+                    })];
             case 1:
                 pregunta = _a.sent();
-                if (!pregunta) return [3 /*break*/, 3];
-                data_source_1.AppDataSource.getRepository(User_1.Pregunta).merge(pregunta, req.body);
-                return [4 /*yield*/, data_source_1.AppDataSource.getRepository(User_1.Pregunta).save(pregunta)];
+                if (!pregunta) {
+                    return [2 /*return*/, res.status(404).json({ message: "Pregunta con ID ".concat(preguntaId, " no encontrada") })];
+                }
+                console.log("Pregunta encontrada:", pregunta);
+                updatedPregunta = data_source_1.AppDataSource.getRepository(User_1.Pregunta).merge(pregunta, req.body);
+                return [4 /*yield*/, data_source_1.AppDataSource.getRepository(User_1.Pregunta).save(updatedPregunta)];
             case 2:
                 result = _a.sent();
+                console.log("Pregunta actualizada:", result);
                 res.json(result);
                 return [3 /*break*/, 4];
             case 3:
-                res.status(404).json({ message: 'Pregunta no encontrada' });
-                _a.label = 4;
+                error_4 = _a.sent();
+                console.error('Error al actualizar la pregunta:', error_4);
+                res.status(500).json({ message: 'Error al actualizar la pregunta' });
+                return [3 /*break*/, 4];
             case 4: return [2 /*return*/];
         }
     });
 }); };
 exports.updatePregunta = updatePregunta;
 var deletePregunta = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var result;
+    var result, error_5;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, data_source_1.AppDataSource.getRepository(User_1.Pregunta).delete(req.params.id)];
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, data_source_1.AppDataSource.getRepository(User_1.Pregunta).delete(req.params.id)];
             case 1:
                 result = _a.sent();
-                res.json(result);
-                return [2 /*return*/];
+                if (result.affected === 0) {
+                    return [2 /*return*/, res.status(404).json({ message: 'Pregunta no encontrada para eliminar' })];
+                }
+                res.json({ message: 'Pregunta eliminada con éxito' });
+                return [3 /*break*/, 3];
+            case 2:
+                error_5 = _a.sent();
+                console.error('Error al eliminar la pregunta:', error_5);
+                res.status(500).json({ message: 'Error al eliminar la pregunta' });
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
         }
     });
 }); };

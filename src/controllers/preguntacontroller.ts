@@ -46,23 +46,20 @@ export const updatePregunta = async (req: Request, res: Response) => {
         const pregunta = await AppDataSource.getRepository(Pregunta).findOneBy({
             ID: preguntaId,
         });
-
-        if (pregunta) {
-            console.log(`Pregunta encontrada:`, pregunta);
-            const updatedPregunta = AppDataSource.getRepository(Pregunta).merge(pregunta, req.body);
-            const result = await AppDataSource.getRepository(Pregunta).save(updatedPregunta);
-            console.log(`Pregunta actualizada:`, result);
-            res.json(result);
-        } else {
-            res.status(404).json({ message: `Pregunta con ID ${preguntaId} no encontrada` });
+        if (!pregunta) {
+            return res.status(404).json({ message: `Pregunta con ID ${preguntaId} no encontrada` });
         }
+        console.log(`Pregunta encontrada:`, pregunta);
+        const updatedPregunta = AppDataSource.getRepository(Pregunta).merge(pregunta, req.body);
+        const result = await AppDataSource.getRepository(Pregunta).save(updatedPregunta);
+        console.log(`Pregunta actualizada:`, result);
+        
+        res.json(result);
     } catch (error) {
         console.error('Error al actualizar la pregunta:', error);
         res.status(500).json({ message: 'Error al actualizar la pregunta' });
     }
 };
-
-
 
 export const deletePregunta = async (req: Request, res: Response) => {
     try {

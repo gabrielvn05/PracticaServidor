@@ -12,11 +12,9 @@ data_source_1.AppDataSource.initialize()
     console.log('Base de datos conectada');
 })
     .catch(function (error) { return console.log('Error al conectar la base de datos:', error); });
-// Rutas de la API
-app.use('/api', examenroutes_1.default); // Rutas para Exámenes
-app.use('/api', preguntaroutes_1.default); // Rutas para Preguntas
-app.use('/api', insumoevaluacionroutes_1.default); // Rutas para Insumos de Evaluación
-// Puerto en el que la aplicación estará escuchando
+app.use('/api', examenroutes_1.default);
+app.use('/api', preguntaroutes_1.default);
+app.use('/api', insumoevaluacionroutes_1.default);
 var PORT = process.env.PORT || 3000;
 app.listen(PORT, function () {
     console.log("Servidor corriendo en el puerto ".concat(PORT));
