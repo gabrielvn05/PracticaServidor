@@ -1,50 +1,24 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const modelos_1 = require("./modelos");
-const callback_1 = require("./callback");
-const promise_1 = require("./promise");
-const asyncAwait_1 = require("./asyncAwait");
-const restservi_1 = require("./restservi");
-(0, restservi_1.fetchData)('https://api.jsonbin.io/v3/b/66e272d7acd3cb34a8822375')
-    .then((data) => {
-    console.log(data);
+var express = require("express");
+var data_source_1 = require("./data-source");
+var examenroutes_1 = require("./routes/examenroutes");
+var preguntaroutes_1 = require("./routes/preguntaroutes");
+var insumoevaluacionroutes_1 = require("./routes/insumoevaluacionroutes");
+var app = express();
+app.use(express.json());
+data_source_1.AppDataSource.initialize()
+    .then(function () {
+    console.log('Base de datos conectada');
 })
-    .catch((error) => {
-    console.log(error);
+    .catch(function (error) { return console.log('Error al conectar la base de datos:', error); });
+// Rutas de la API
+app.use('/api', examenroutes_1.default); // Rutas para Exámenes
+app.use('/api', preguntaroutes_1.default); // Rutas para Preguntas
+app.use('/api', insumoevaluacionroutes_1.default); // Rutas para Insumos de Evaluación
+// Puerto en el que la aplicación estará escuchando
+var PORT = process.env.PORT || 3000;
+app.listen(PORT, function () {
+    console.log("Servidor corriendo en el puerto ".concat(PORT));
 });
-(0, callback_1.buscarElementoPorID)(modelos_1.InsumoEvaluacion, 2, callback_1.buscarPorID);
-console.log("Usando forEach:");
-modelos_1.InsumoEvaluacion.forEach((insumo) => {
-    console.log(`ID de Insumo: ${insumo.ID}`);
-    insumo.ID_Pregunta.forEach((pregunta) => {
-        console.log(`Descripción Pregunta: ${pregunta.Descripcion}`);
-    });
-});
-(0, promise_1.buscarElementoPorIDConPromesa)(modelos_1.InsumoEvaluacion, 3)
-    .then((resultado) => {
-    console.log("Elemento encontrado con Promises:", resultado);
-})
-    .catch((error) => {
-    console.log(error);
-});
-function ejecutarBusqueda() {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            const resultado = yield (0, asyncAwait_1.buscarElementoPorIDAsync)(modelos_1.InsumoEvaluacion, 3);
-            console.log("Elemento encontrado con async/await:", resultado);
-        }
-        catch (error) {
-            console.log(error);
-        }
-    });
-}
-ejecutarBusqueda();
+//# sourceMappingURL=app.js.map

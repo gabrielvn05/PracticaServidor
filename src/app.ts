@@ -1,43 +1,23 @@
+import * as express from 'express';
+import { AppDataSource } from './data-source';
+import examenRoutes from './routes/examenroutes';
+import preguntaRoutes from './routes/preguntaroutes';
+import insumoEvaluacionRoutes from './routes/insumoevaluacionroutes';
 
-import { InsumoEvaluacion } from './modelos';
-import { buscarElementoPorID, buscarPorID } from './callback';
-import { buscarElementoPorIDConPromesa } from './promise';
-import { buscarElementoPorIDAsync } from './asyncAwait';
-import { fetchData, IPost } from './restservi';
+const app = express();
+app.use(express.json());
 
-fetchData<IPost>('https://api.jsonbin.io/v3/b/66e272d7acd3cb34a8822375')
-    .then((data: IPost[]) => {
-        console.log(data);
+AppDataSource.initialize()
+    .then(() => {
+        console.log('Base de datos conectada');
     })
-    .catch((error) => {
-        console.log(error);
-    });
+    .catch((error) => console.log('Error al conectar la base de datos:', error));
 
-buscarElementoPorID(InsumoEvaluacion, 2, buscarPorID);
+app.use('/api', examenRoutes); 
+app.use('/api', preguntaRoutes);
+app.use('/api', insumoEvaluacionRoutes);
 
-console.log("Usando forEach:");
-InsumoEvaluacion.forEach((insumo) => {
-    console.log(`ID de Insumo: ${insumo.ID}`);
-    insumo.ID_Pregunta.forEach((pregunta) => {
-        console.log(`Descripción Pregunta: ${pregunta.Pregunta}`);
-    });
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Servidor corriendo en el puerto ${PORT}`);
 });
-
-buscarElementoPorIDConPromesa(InsumoEvaluacion, 3)
-    .then((resultado) => {
-        console.log("Elemento encontrado con Promises:", resultado);
-    })
-    .catch((error) => {
-        console.log(error);
-    });
-
-async function ejecutarBusqueda() {
-    try {
-        const resultado = await buscarElementoPorIDAsync(InsumoEvaluacion, 3);
-        console.log("Elemento encontrado con async/await:", resultado);
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-ejecutarBusqueda();

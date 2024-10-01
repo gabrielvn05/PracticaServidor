@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.InsumoEvaluacion = void 0;
-const InsumoEvaluacion = [
+var InsumoEvaluacion = [
     {
         ID: 1,
         ID_Pregunta: [{
                 ID: 1,
-                Descripcion: "Indique cual de las siguientes preguntas es la correcta",
+                Pregunta: "Indique cual de las siguientes preguntas es la correcta",
                 Categoria: "Seleccion",
                 Respuesta_correcta: "C",
             }],
@@ -20,7 +20,7 @@ const InsumoEvaluacion = [
         ID: 2,
         ID_Pregunta: [{
                 ID: 2,
-                Descripcion: "Indique cual de las siguientes afirmaciones son las correctas",
+                Pregunta: "Indique cual de las siguientes afirmaciones son las correctas",
                 Categoria: "Seleccion multiple",
                 Respuesta_correcta: "A,D",
             }],
@@ -34,7 +34,7 @@ const InsumoEvaluacion = [
         ID: 3,
         ID_Pregunta: [{
                 ID: 3,
-                Descripcion: "Indique cual de las siguientes afirmaciones NO es la correcta",
+                Pregunta: "Indique cual de las siguientes afirmaciones NO es la correcta",
                 Categoria: "Seleccion",
                 Respuesta_correcta: "B",
             }],
@@ -48,7 +48,7 @@ const InsumoEvaluacion = [
         ID: 4,
         ID_Pregunta: [{
                 ID: 4,
-                Descripcion: "Indique cual de las siguientes negaciones es la incorrecta",
+                Pregunta: "Indique cual de las siguientes negaciones es la incorrecta",
                 Categoria: "Seleccion",
                 Respuesta_correcta: "D",
             }],
@@ -62,7 +62,7 @@ const InsumoEvaluacion = [
         ID: 5,
         ID_Pregunta: [{
                 ID: 5,
-                Descripcion: "Indique cual de las siguientes afirmaciones es la correcta",
+                Pregunta: "Indique cual de las siguientes afirmaciones es la correcta",
                 Categoria: "Seleccion",
                 Respuesta_correcta: "C",
             }],
@@ -74,3 +74,4 @@ const InsumoEvaluacion = [
     }
 ];
 exports.InsumoEvaluacion = InsumoEvaluacion;
+//# sourceMappingURL=modelos.js.map
