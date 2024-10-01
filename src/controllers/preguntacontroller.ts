@@ -43,16 +43,12 @@ export const updatePregunta = async (req: Request, res: Response) => {
     try {
         const preguntaId = parseInt(req.params.id, 10);
         console.log(`Intentando actualizar la pregunta con ID: ${preguntaId}`);
-
-        // Encuentra la pregunta por ID
         const pregunta = await AppDataSource.getRepository(Pregunta).findOneBy({
             ID: preguntaId,
         });
 
         if (pregunta) {
             console.log(`Pregunta encontrada:`, pregunta);
-            
-            // Actualizar los campos que se envían en el cuerpo de la solicitud
             const updatedPregunta = AppDataSource.getRepository(Pregunta).merge(pregunta, req.body);
             const result = await AppDataSource.getRepository(Pregunta).save(updatedPregunta);
             console.log(`Pregunta actualizada:`, result);
