@@ -16,7 +16,7 @@ exports.AppDataSource = new typeorm_1.DataSource({
     ssl: {
         rejectUnauthorized: false
     },
-    entities: [User_1.Pregunta, User_1.InsumoEvaluacion, User_1.Examen],
+    entities: [User_1.Pregunta, User_1.InsumoEvaluacion, User_1.Examen, User_1.Usuario],
     migrations: [],
     subscribers: [],
 });

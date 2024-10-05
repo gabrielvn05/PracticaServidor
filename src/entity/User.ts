@@ -1,4 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from "typeorm";
+import * as bcrypt from 'bcrypt';
+
 
 @Entity()
 export class Examen {
@@ -43,4 +45,27 @@ export class InsumoEvaluacion {
 
     @Column()
     Valor: number;
+}
+
+@Entity()
+export class Usuario {
+    @PrimaryGeneratedColumn()
+    ID: number;
+
+    @Column()
+    Nombre: string;
+
+    @Column()
+    Clave: string;
+
+    @Column()
+    Estado: string;
+
+    async hashPassword() {
+        this.Clave = await bcrypt.hash(this.Clave, 10);
+    }
+
+    async checkPassword(Clave: string): Promise<boolean> {
+        return await bcrypt.compare(Clave, this.Clave);
+    }
 }

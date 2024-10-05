@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
-import { Examen, Pregunta, InsumoEvaluacion } from "./entity/User";
+import { Examen, Pregunta, InsumoEvaluacion, Usuario } from "./entity/User";
 
 export const AppDataSource = new DataSource({
     type: "postgres",
@@ -14,7 +14,7 @@ export const AppDataSource = new DataSource({
     ssl: {
         rejectUnauthorized: false 
     },
-    entities: [Pregunta, InsumoEvaluacion, Examen],
+    entities: [Pregunta, InsumoEvaluacion, Examen, Usuario],
     migrations: [],
     subscribers: [],
 });

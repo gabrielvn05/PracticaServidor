@@ -5,9 +5,9 @@
          "es6",
          "dom"
       ],
+      "esModuleInterop": true,
       "target": "es5",
       "module": "commonjs",
-      "moduleResolution": "node",
       "outDir": "./dist",
       "emitDecoratorMetadata": true,
       "experimentalDecorators": true,
